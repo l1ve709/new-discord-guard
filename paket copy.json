@@ -1,0 +1,21 @@
+{
+    "name": "ediz-guard",
+    "version": "1.0.0",
+    "description": "ediz - discord guard botu",
+    "main": "ana.js",
+    "scripts": {
+        "baslat": "node ana.js",
+        "gelistirme": "nodemon ana.js",
+        "kurulum": "node veritabani/kurulum.js",
+        "komut-kayit": "node kayit.komut.js"
+    },
+    "author": "ediz",
+    "dependencies": {
+        "discord.js": "^14.14.1",
+        "mysql2": "^3.6.5",
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}
