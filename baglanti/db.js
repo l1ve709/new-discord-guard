@@ -3,7 +3,7 @@
 // --------------------------------------------------------
 
 const mysql = require("mysql2/promise");
-const yapilandirma = require("../yapilandirma");
+const yapilandirma = require("../config");
 
 var havuz = null;
 
@@ -14,7 +14,7 @@ async function veritabaniBaglan() {
             port: yapilandirma.mysql.port,
             user: yapilandirma.mysql.kullanici,
             password: yapilandirma.mysql.sifre,
-            database: yapilandirma.mysql.db,
+            database: yapilandirma.mysql.veritabani,
             waitForConnections: true,
             connectionLimit: 20,
             charset: "utf8mb4"

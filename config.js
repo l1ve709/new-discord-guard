@@ -1,10 +1,10 @@
 // --------------------------------------------------------
-// ediz - config
+// ediz - yapilandirma
 // --------------------------------------------------------
 
 require("dotenv").config();
 
-var config = {
+var yapilandirma = {
     botJetonu: process.env.BOT_JETONU,
     istemciId: process.env.ISTEMCI_ID,
     sahipId: process.env.SAHIP_ID,
@@ -16,7 +16,7 @@ var config = {
         sifre: process.env.MYSQL_SIFRE || "",
         veritabani: process.env.MYSQL_VERITABANI || "ediz_guard"
     },
-
+    
     varsayilan: {
         kanalKoruma:    true,
         rolKoruma:      true,
@@ -61,4 +61,4 @@ var config = {
     ]
 };
 
-module.exports = config;
+module.exports = yapilandirma;

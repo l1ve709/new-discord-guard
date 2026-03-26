@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS ayarlar (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
--- beyaz liste
+-- whitelist
 -- --------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS beyazliste (
+CREATE TABLE IF NOT EXISTS whitelist (
     id              INT AUTO_INCREMENT PRIMARY KEY,
     sunucu_id       VARCHAR(25) NOT NULL,
     kullanici_id    VARCHAR(25) NOT NULL,

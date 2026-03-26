@@ -2,8 +2,8 @@
 // ediz - ayar modeli
 // --------------------------------------------------------
 
-const { havuzGetir } = require("../baglanti/veritabani");
-const yapilandirma = require("../yapilandirma");
+const { havuzGetir } = require("../baglanti/db");
+const yapilandirma = require("../config");
 
 var onbellek = {};
 var Ayar = {};
