@@ -14,7 +14,7 @@ async function veritabaniBaglan() {
             port: yapilandirma.mysql.port,
             user: yapilandirma.mysql.kullanici,
             password: yapilandirma.mysql.sifre,
-            database: yapilandirma.mysql.veritabani,
+            database: yapilandirma.mysql.db,
             waitForConnections: true,
             connectionLimit: 20,
             charset: "utf8mb4"
