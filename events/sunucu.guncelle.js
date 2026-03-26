@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - sunucu ayar degisikligi
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Sunucu = require("../guard/sunucu");
@@ -15,7 +11,7 @@ module.exports = {
             sunucu: yeni,
             denetimTuru: AuditLogEvent.GuildUpdate,
             eylemTuru: "sunucu_guncelle",
-            modulAdi: "sunucuguard",
+            modulAdi: "sunucuKoruma",
             limitAlani: "kanalLimit",
             istemci: istemci
         });

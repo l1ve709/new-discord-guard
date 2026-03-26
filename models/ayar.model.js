@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - ayar modeli
-// --------------------------------------------------------
-
 const { havuzGetir } = require("../baglanti/db");
 const yapilandirma = require("../config");
 
@@ -25,6 +21,8 @@ Ayar.getir = async function (sunucuId) {
     return onbellek[sunucuId];
 };
 
+function b(val) { return val ? 1 : 0; }
+
 Ayar.olustur = async function (sunucuId) {
     var havuz = havuzGetir();
     var v = yapilandirma.varsayilan;
@@ -39,9 +37,9 @@ Ayar.olustur = async function (sunucuId) {
 
     await havuz.execute(sql, [
         sunucuId,
-        v.kanalKoruma, v.rolKoruma, v.banKoruma, v.kickKoruma,
-        v.botKoruma, v.sunucuKoruma, v.webhookKoruma, v.emojiKoruma,
-        v.spamKoruma, v.raidKoruma, v.reklamKoruma,
+        b(v.kanalKoruma), b(v.rolKoruma), b(v.banKoruma), b(v.kickKoruma),
+        b(v.botKoruma), b(v.sunucuKoruma), b(v.webhookKoruma), b(v.emojiKoruma),
+        b(v.spamKoruma), b(v.raidKoruma), b(v.reklamKoruma),
         v.kanalLimit, v.rolLimit, v.banLimit, v.kickLimit, v.webhookLimit, v.emojiLimit,
         v.limitSuresi, v.spamMesajSinir, v.spamSaniye, v.spamSusturSure,
         v.raidKatilimSinir, v.raidSaniye, v.cezaTuru, v.reklamCeza

@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - rol guncelleme (tehlikeli izin tespiti dahil)
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent, PermissionFlagsBits } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Rol = require("../guard/rol");
@@ -28,7 +24,6 @@ module.exports = {
         var ayar = await Ayar.getir(yeni.guild.id);
         if (!ayar.rolKoruma) return;
 
-        // tehlikeli izin eklenmis mi
         var tehlikeli = false;
         for (var i = 0; i < tehlikeliIzinler.length; i++) {
             if (!eski.permissions.has(tehlikeliIzinler[i]) && yeni.permissions.has(tehlikeliIzinler[i])) {
@@ -46,7 +41,6 @@ module.exports = {
             istemci: istemci
         });
 
-        // limit asildi veya tehlikeli izin verildi
         if (s.ihlal || (tehlikeli && s.yurutucu)) {
             await Rol.geriAl(eski, yeni);
             if (s.yurutucu) {

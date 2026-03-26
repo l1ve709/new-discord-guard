@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - discord guard botu
-// --------------------------------------------------------
-
 const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js");
 const fs = require("fs");
 const yol = require("path");
@@ -30,7 +26,7 @@ istemci.komutlar = new Collection();
 var komutDizini = yol.join(__dirname, "komutlar");
 fs.readdirSync(komutDizini).filter(function (d) { return d.endsWith(".js"); }).forEach(function (dosya) {
     var k = require(yol.join(komutDizini, dosya));
-    if (k.veri && k.calistir) { istemci.komutlar.set(k.veri.name, k); console.log("[ediz] komut: " + k.veri.name); }
+    if (k.veri && k.calistir) { istemci.komutlar.set(k.veri.name, k); console.log("[guardxnsole] komut: " + k.veri.name); }
 });
 
 var olayDizini = yol.join(__dirname, "events");
@@ -41,20 +37,20 @@ fs.readdirSync(olayDizini).filter(function (d) { return d.endsWith(".js"); }).fo
     } else {
         istemci.on(o.ad, function () { var a = Array.from(arguments); a.push(istemci); o.calistir.apply(null, a); });
     }
-    console.log("[ediz] olay: " + o.ad);
+    console.log("[guardxnsole] olay: " + o.ad);
 });
 
 async function basla() {
     try {
         await veritabaniBaglan();
-        await istemci.login(yapilandirma.botJetonu);
+        await istemci.login(yapilandirma.botTokeni);
     } catch (h) {
-        console.error("[ediz] baslangic hatasi:", h.message);
+        console.error("[guardxnsole] baslangic hatasi:", h.message);
         process.exit(1);
     }
 }
 
 basla();
 
-process.on("unhandledRejection", function (h) { console.error("[ediz] promise:", h); });
-process.on("uncaughtException", function (h) { console.error("[ediz] istisna:", h); });
+process.on("unhandledRejection", function (h) { console.error("[guardxnsole] promise:", h); });
+process.on("uncaughtException", function (h) { console.error("[guardxnsole] istisna:", h); });

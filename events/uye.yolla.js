@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - toplu kick tespiti
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Ceza = require("../tools/ceza");
@@ -31,7 +27,7 @@ module.exports = {
                     "Toplu atma tespit: " + (uye.user.tag || uye.user.id), s.ayarlar.cezaTuru);
             }
         } catch (h) {
-            console.error("[ediz] kick kontrol hatasi:", h.message);
+            console.error("[guardxnsole] kick kontrol hatasi:", h.message);
         }
     }
 };

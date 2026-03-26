@@ -1,15 +1,15 @@
--- --------------------------------------------------------
--- ediz - guard botu veritabani
--- --------------------------------------------------------
 
-CREATE DATABASE IF NOT EXISTS ediz_guard
+
+
+
+CREATE DATABASE IF NOT EXISTS guardxnsole_guard
     CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-USE ediz_guard;
+USE guardxnsole_guard;
 
--- --------------------------------------------------------
--- ayarlar
--- --------------------------------------------------------
+
+
+
 
 CREATE TABLE IF NOT EXISTS ayarlar (
     id                  INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,15 +48,15 @@ CREATE TABLE IF NOT EXISTS ayarlar (
     log_kanal_id        VARCHAR(25) DEFAULT NULL,
     muaf_roller         TEXT DEFAULT NULL,
 
-    olusturan           VARCHAR(20) DEFAULT 'ediz',
+    olusturan           VARCHAR(20) DEFAULT 'guardxnsole',
     guncelleme_tarihi   TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     UNIQUE INDEX idx_sunucu (sunucu_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
--- whitelist
--- --------------------------------------------------------
+
+
+
 
 CREATE TABLE IF NOT EXISTS whitelist (
     id              INT AUTO_INCREMENT PRIMARY KEY,
@@ -64,14 +64,14 @@ CREATE TABLE IF NOT EXISTS whitelist (
     kullanici_id    VARCHAR(25) NOT NULL,
     ekleyen_id      VARCHAR(25) NOT NULL,
     tarih           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    olusturan       VARCHAR(20) DEFAULT 'ediz',
+    olusturan       VARCHAR(20) DEFAULT 'guardxnsole',
 
     UNIQUE INDEX idx_sk (sunucu_id, kullanici_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
--- kayitlar
--- --------------------------------------------------------
+
+
+
 
 CREATE TABLE IF NOT EXISTS kayitlar (
     id              INT AUTO_INCREMENT PRIMARY KEY,
@@ -82,10 +82,9 @@ CREATE TABLE IF NOT EXISTS kayitlar (
     detay           TEXT DEFAULT NULL,
     ceza            VARCHAR(20) DEFAULT NULL,
     tarih           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    olusturan       VARCHAR(20) DEFAULT 'ediz',
+    olusturan       VARCHAR(20) DEFAULT 'guardxnsole',
 
     INDEX idx_sunucu (sunucu_id),
     INDEX idx_tarih (tarih)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ediz

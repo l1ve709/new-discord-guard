@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - limit ayarlama
-// --------------------------------------------------------
-
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const Ayar = require("../models/ayar.model");
 
@@ -30,8 +26,8 @@ module.exports = {
 
     calistir: async function (etkilesim) {
         if (etkilesim.user.id !== etkilesim.guild.ownerId &&
-            etkilesim.user.id !== require("../yapilandirma").sahipId) {
-            return await etkilesim.reply({ content: "Sadece sunucu sahibi kullanabilir. -- ediz", ephemeral: true });
+            etkilesim.user.id !== require("../config").sahipId) {
+            return await etkilesim.reply({ content: "Sadece sunucu sahibi kullanabilir. -- guardxnsole", ephemeral: true });
         }
 
         var tur = etkilesim.options.getString("tur");
@@ -47,6 +43,6 @@ module.exports = {
         }
 
         Ayar.temizle(etkilesim.guild.id);
-        await etkilesim.reply({ content: mesaj + " -- ediz" });
+        await etkilesim.reply({ content: mesaj + " -- guardxnsole" });
     }
 };

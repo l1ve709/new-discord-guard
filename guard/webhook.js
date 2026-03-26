@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - webhook koruma
-// --------------------------------------------------------
-
 var Webhook = {};
 
 Webhook.temizle = async function (kanal) {
@@ -9,12 +5,12 @@ Webhook.temizle = async function (kanal) {
         var wh = await kanal.fetchWebhooks();
         for (var [, w] of wh) {
             try {
-                await w.delete("[ediz] yetkisiz webhook temizlendi");
-                console.log("[ediz] webhook silindi: " + w.name);
-            } catch (e) { /* silinemedi */ }
+                await w.delete("[guardxnsole] yetkisiz webhook temizlendi");
+                console.log("[guardxnsole] webhook silindi: " + w.name);
+            } catch (e) {  }
         }
     } catch (h) {
-        console.error("[ediz] webhook temizleme hatasi:", h.message);
+        console.error("[guardxnsole] webhook temizleme hatasi:", h.message);
     }
 };
 

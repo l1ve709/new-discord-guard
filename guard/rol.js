@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - rol koruma
-// --------------------------------------------------------
-
 var Rol = {};
 
 Rol.geriYukle = async function (silinmisRol) {
@@ -13,22 +9,22 @@ Rol.geriYukle = async function (silinmisRol) {
             position: silinmisRol.rawPosition,
             permissions: silinmisRol.permissions,
             mentionable: silinmisRol.mentionable,
-            reason: "[ediz] silinen rol geri yuklendi"
+            reason: "[guardxnsole] silinen rol geri yuklendi"
         });
-        console.log("[ediz] rol geri yuklendi: " + silinmisRol.name);
+        console.log("[guardxnsole] rol geri yuklendi: " + silinmisRol.name);
         return yeni;
     } catch (h) {
-        console.error("[ediz] rol geri yukleme hatasi:", h.message);
+        console.error("[guardxnsole] rol geri yukleme hatasi:", h.message);
         return null;
     }
 };
 
 Rol.sil = async function (rol) {
     try {
-        await rol.delete("[ediz] yetkisiz rol olusturma");
-        console.log("[ediz] yetkisiz rol silindi: " + rol.name);
+        await rol.delete("[guardxnsole] yetkisiz rol olusturma");
+        console.log("[guardxnsole] yetkisiz rol silindi: " + rol.name);
     } catch (h) {
-        console.error("[ediz] rol silme hatasi:", h.message);
+        console.error("[guardxnsole] rol silme hatasi:", h.message);
     }
 };
 
@@ -42,12 +38,12 @@ Rol.geriAl = async function (eskiRol, yeniRol) {
         if (!eskiRol.permissions.equals(yeniRol.permissions)) g.permissions = eskiRol.permissions;
 
         if (Object.keys(g).length > 0) {
-            g.reason = "[ediz] yetkisiz rol degisikligi geri alindi";
+            g.reason = "[guardxnsole] yetkisiz rol degisikligi geri alindi";
             await yeniRol.edit(g);
-            console.log("[ediz] rol geri alindi: " + eskiRol.name);
+            console.log("[guardxnsole] rol geri alindi: " + eskiRol.name);
         }
     } catch (h) {
-        console.error("[ediz] rol geri alma hatasi:", h.message);
+        console.error("[guardxnsole] rol geri alma hatasi:", h.message);
     }
 };
 

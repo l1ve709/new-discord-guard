@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - son kayitlari gosterme
-// --------------------------------------------------------
-
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const Kayit = require("../models/kayit.model");
 
@@ -19,7 +15,7 @@ module.exports = {
         var liste = await Kayit.listele(etkilesim.guild.id, adet);
 
         if (liste.length === 0) {
-            return await etkilesim.reply({ content: "log yok. -- ediz", ephemeral: true });
+            return await etkilesim.reply({ content: "log yok. -- guardxnsole", ephemeral: true });
         }
 
         var satirlar = liste.map(function (k, i) {
@@ -28,7 +24,6 @@ module.exports = {
                    " | " + (k.ceza || "-") + " | " + tarih;
         });
 
-        // 4096 karakter siniri var kiral
         var metin = satirlar.join("\n");
         if (metin.length > 4000) metin = metin.substring(0, 4000) + "\n...";
 
@@ -36,7 +31,7 @@ module.exports = {
             .setTitle("Son Koruma Kayitlari")
             .setDescription(metin)
             .setColor(0x2c3e50)
-            .setFooter({ text: "ediz" }).setTimestamp();
+            .setFooter({ text: "guardxnsole" }).setTimestamp();
 
         await etkilesim.reply({ embeds: [g], ephemeral: true });
     }

@@ -1,7 +1,7 @@
 {
-    "name": "ediz-guard",
+    "name": "guardxnsole-guard",
     "version": "1.0.0",
-    "description": "ediz - discord guard botu",
+    "description": "guardxnsole - discord guard botu",
     "main": "main.js",
     "scripts": {
         "baslat": "node main.js",
@@ -9,7 +9,7 @@
         "kurulum": "node database/kurulum.js",
         "komut-kayit": "node kayit.komut.js"
     },
-    "author": "ediz",
+    "author": "guardxnsole",
     "dependencies": {
         "discord.js": "^14.25.1",
         "dotenv": "^16.6.1",

@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - beyaz liste
-// --------------------------------------------------------
-
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 
 const whitelist = require("../models/whitelist.model");
@@ -25,37 +21,37 @@ module.exports = {
 
     calistir: async function (etkilesim) {
         if (etkilesim.user.id !== etkilesim.guild.ownerId &&
-            etkilesim.user.id !== require("../yapilandirma").sahipId) {
-            return await etkilesim.reply({ content: "Sadece sunucu sahibi kullanabilir. -- ediz", ephemeral: true });
+            etkilesim.user.id !== require("../config").sahipId) {
+            return await etkilesim.reply({ content: "Sadece sunucu sahibi kullanabilir. -- guardxnsole", ephemeral: true });
         }
 
         var alt = etkilesim.options.getSubcommand();
 
         if (alt === "ekle") {
             var k = etkilesim.options.getUser("kisi");
-            var ok = await Whitelist.ekle(etkilesim.guild.id, k.id, etkilesim.user.id);
-            await etkilesim.reply({ content: ok ? k.tag + " eklendi. -- ediz" : "Zaten listede. -- ediz" });
+            var ok = await whitelist.ekle(etkilesim.guild.id, k.id, etkilesim.user.id);
+            await etkilesim.reply({ content: ok ? k.tag + " eklendi. -- guardxnsole" : "Zaten listede. -- guardxnsole" });
         }
 
         if (alt === "cikar") {
             var k2 = etkilesim.options.getUser("kisi");
-            var ok2 = await Whitelist.cikar(etkilesim.guild.id, k2.id);
-            await etkilesim.reply({ content: ok2 ? k2.tag + " cikarildi. -- ediz" : "Listede degil. -- ediz" });
+            var ok2 = await whitelist.cikar(etkilesim.guild.id, k2.id);
+            await etkilesim.reply({ content: ok2 ? k2.tag + " cikarildi. -- guardxnsole" : "Listede degil. -- guardxnsole" });
         }
 
         if (alt === "liste") {
-            var l = await Whitelist.listele(etkilesim.guild.id);
-            if (l.length === 0) return await etkilesim.reply({ content: "Beyaz liste bos. -- ediz", ephemeral: true });
+            var l = await whitelist.listele(etkilesim.guild.id);
+            if (l.length === 0) return await etkilesim.reply({ content: "Whitelist bos. -- guardxnsole", ephemeral: true });
 
             var satirlar = l.map(function (b, i) {
                 return (i + 1) + ". <@" + b.kullanici_id + "> (ekleyen: <@" + b.ekleyen_id + ">)";
             });
 
             var g = new EmbedBuilder()
-                .setTitle("Beyaz Liste")
+                .setTitle("Whitelist")
                 .setDescription(satirlar.join("\n"))
                 .setColor(0x2c3e50)
-                .setFooter({ text: "ediz" }).setTimestamp();
+                .setFooter({ text: "guardxnsole" }).setTimestamp();
 
             await etkilesim.reply({ embeds: [g] });
         }

@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - ceza uygulama
-// --------------------------------------------------------
-
 const Kayit = require("../models/kayit.model");
 const kayitci = require("./kayitci");
 
@@ -23,7 +19,7 @@ Ceza.uygula = async function (sunucu, yurutucu, islem, detay, cezaTuru) {
     if (cezaTuru === "banla") {
         if (uye.bannable) {
             try {
-                await uye.ban({ reason: "[ediz] " + islem + ": " + detay, deleteMessageSeconds: 86400 });
+                await uye.ban({ reason: "[guardxnsole] " + islem + ": " + detay, deleteMessageSeconds: 86400 });
             } catch (e) {
                 uyguladigimCeza = "rol_al";
             }
@@ -35,7 +31,7 @@ Ceza.uygula = async function (sunucu, yurutucu, islem, detay, cezaTuru) {
     if (cezaTuru === "at") {
         if (uye.kickable) {
             try {
-                await uye.kick("[ediz] " + islem + ": " + detay);
+                await uye.kick("[guardxnsole] " + islem + ": " + detay);
             } catch (e) {
                 uyguladigimCeza = "rol_al";
             }
@@ -51,17 +47,17 @@ Ceza.uygula = async function (sunucu, yurutucu, islem, detay, cezaTuru) {
 
         for (var i = 0; i < rolIdleri.length; i++) {
             try {
-                await uye.roles.remove(rolIdleri[i], "[ediz] " + islem);
-            } catch (e) { /* */ }
+                await uye.roles.remove(rolIdleri[i], "[guardxnsole] " + islem);
+            } catch (e) {  }
         }
     }
 
     if (cezaTuru === "sustur") {
         try {
-            await uye.timeout(600000, "[ediz] " + islem + ": " + detay);
+            await uye.timeout(600000, "[guardxnsole] " + islem + ": " + detay);
             uyguladigimCeza = "sustur";
         } catch (e) {
-            console.error("[ediz] susturma hatasi:", e.message);
+            console.error("[guardxnsole] susturma hatasi:", e.message);
         }
     }
 
@@ -89,7 +85,7 @@ Ceza.uygula = async function (sunucu, yurutucu, islem, detay, cezaTuru) {
         0xff0000
     );
 
-    console.log("[ediz] CEZA: " + (yurutucu.tag || yurutucu.id) + " | " + islem + " | " + uyguladigimCeza);
+    console.log("[guardxnsole] CEZA: " + (yurutucu.tag || yurutucu.id) + " | " + islem + " | " + uyguladigimCeza);
 };
 
 module.exports = Ceza;

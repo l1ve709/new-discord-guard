@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - uye guncelleme (tehlikeli rol verme tespiti)
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent, PermissionFlagsBits } = require("discord.js");
 const Ayar = require("../models/ayar.model");
 const whitelist = require("../models/whitelist.model");
@@ -23,11 +19,9 @@ module.exports = {
         var ayar = await Ayar.getir(yeni.guild.id);
         if (!ayar.rolKoruma) return;
 
-        // yeni eklenen roller
         var eklenen = yeni.roles.cache.filter(function (r) { return !eski.roles.cache.has(r.id); });
         if (eklenen.size === 0) return;
 
-        // tehlikeli izin iceren rol verildi mi
         var tehlikeli = false;
         eklenen.forEach(function (r) {
             for (var i = 0; i < tehlikeliIzinler.length; i++) {
@@ -45,14 +39,13 @@ module.exports = {
             var yurutucu = giris.executor;
             if (yurutucu.id === istemci.user.id) return;
             if (yurutucu.id === yeni.guild.ownerId) return;
-            if (yurutucu.id === yapilandirma.sahipId) return;
+            if (yurutucu.id === config.sahipId) return;
 
-            var beyaz = await whitelist.kontrol(yeni.guild.id, yurutucu.id);
-            if (beyaz) return;
+            var wl = await whitelist.kontrol(yeni.guild.id, yurutucu.id);
+            if (wl) return;
 
-            // rolleri geri al
             for (var [, r] of eklenen) {
-                try { await yeni.roles.remove(r, "[ediz] yetkisiz tehlikeli rol verme"); } catch (e) { /* */ }
+                try { await yeni.roles.remove(r, "[guardxnsole] yetkisiz tehlikeli rol verme"); } catch (e) {  }
             }
 
             var rolIsimleri = eklenen.map(function (r) { return r.name; }).join(", ");
@@ -61,7 +54,7 @@ module.exports = {
                 "Tehlikeli rol verildi: " + rolIsimleri + " -> " + (yeni.user.tag || yeni.user.id),
                 ayar.cezaTuru);
         } catch (h) {
-            console.error("[ediz] uye guncelleme hatasi:", h.message);
+            console.error("[guardxnsole] uye guncelleme hatasi:", h.message);
         }
     }
 };

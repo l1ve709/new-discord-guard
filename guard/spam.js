@@ -1,9 +1,5 @@
-// --------------------------------------------------------
-// ediz - spam koruma
-// --------------------------------------------------------
-
 const Ayar = require("../models/ayar.model");
-const Beyazliste = require("../models/whitelist.model");
+const Whitelist = require("../models/whitelist.model");
 const yapilandirma = require("../config");
 const Kayit = require("../models/kayit.model");
 const kayitci = require("../tools/kayitci");
@@ -21,8 +17,8 @@ async function kontrolEt(mesaj) {
 
     if (mesaj.member && mesaj.member.permissions.has("Administrator")) return false;
 
-    var beyaz = await Beyazliste.kontrol(mesaj.guild.id, mesaj.author.id);
-    if (beyaz) return false;
+    var wl = await Whitelist.kontrol(mesaj.guild.id, mesaj.author.id);
+    if (wl) return false;
 
     if (ayar.muafRoller.length > 0 && mesaj.member) {
         for (var i = 0; i < ayar.muafRoller.length; i++) {
@@ -44,13 +40,13 @@ async function kontrolEt(mesaj) {
     if (sayac[sId][kId].length >= ayar.spamMesajSinir) {
         sayac[sId][kId] = [];
 
-        try { await mesaj.delete(); } catch (e) { /* */ }
+        try { await mesaj.delete(); } catch (e) {  }
 
         if (mesaj.member) {
             try {
-                await mesaj.member.timeout(ayar.spamSusturSure * 60 * 1000, "[ediz] spam tespit edildi");
+                await mesaj.member.timeout(ayar.spamSusturSure * 60 * 1000, "[guardxnsole] spam tespit edildi");
             } catch (e) {
-                console.error("[ediz] spam susturma hatasi:", e.message);
+                console.error("[guardxnsole] spam susturma hatasi:", e.message);
             }
         }
 
@@ -65,7 +61,7 @@ async function kontrolEt(mesaj) {
         await kayitci.log(mesaj.guild, "Spam Tespit",
             mesaj.author.tag + " | " + ayar.spamSusturSure + " dk susturuldu", 0xe67e22);
 
-        console.log("[ediz] spam: " + mesaj.author.tag);
+        console.log("[guardxnsole] spam: " + mesaj.author.tag);
         return true;
     }
 
@@ -83,8 +79,8 @@ async function reklamKontrol(mesaj) {
 
     if (mesaj.member && mesaj.member.permissions.has("Administrator")) return false;
 
-    var beyaz = await Beyazliste.kontrol(mesaj.guild.id, mesaj.author.id);
-    if (beyaz) return false;
+    var wl = await Whitelist.kontrol(mesaj.guild.id, mesaj.author.id);
+    if (wl) return false;
 
     var icerik = mesaj.content;
 
@@ -92,14 +88,14 @@ async function reklamKontrol(mesaj) {
         yapilandirma.reklamDesenleri[i].lastIndex = 0;
         if (yapilandirma.reklamDesenleri[i].test(icerik)) {
 
-            try { await mesaj.delete(); } catch (e) { /* */ }
+            try { await mesaj.delete(); } catch (e) {  }
 
             if (ayar.reklamCeza === "banla" && mesaj.member && mesaj.member.bannable) {
-                try { await mesaj.member.ban({ reason: "[ediz] reklam", deleteMessageSeconds: 86400 }); } catch (e) { /* */ }
+                try { await mesaj.member.ban({ reason: "[guardxnsole] reklam", deleteMessageSeconds: 86400 }); } catch (e) {  }
             } else if (ayar.reklamCeza === "at" && mesaj.member && mesaj.member.kickable) {
-                try { await mesaj.member.kick("[ediz] reklam"); } catch (e) { /* */ }
+                try { await mesaj.member.kick("[guardxnsole] reklam"); } catch (e) {  }
             } else if (mesaj.member) {
-                try { await mesaj.member.timeout(600000, "[ediz] reklam"); } catch (e) { /* */ }
+                try { await mesaj.member.timeout(600000, "[guardxnsole] reklam"); } catch (e) {  }
             }
 
             await Kayit.ekle({
@@ -111,7 +107,7 @@ async function reklamKontrol(mesaj) {
             await kayitci.log(mesaj.guild, "Reklam Tespit",
                 mesaj.author.tag + " | Ceza: " + ayar.reklamCeza, 0xc0392b);
 
-            console.log("[ediz] reklam: " + mesaj.author.tag);
+            console.log("[guardxnsole] reklam: " + mesaj.author.tag);
             return true;
         }
     }

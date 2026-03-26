@@ -1,12 +1,8 @@
-// --------------------------------------------------------
-// ediz - uye katilma (bot koruma + raid)
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const Ayar = require("../models/ayar.model");
 const Whitelist = require("../models/whitelist.model");
 const yapilandirma = require("../config");
-// const Bot = require("../guard/bot");
+const Bot = require("../guard/kick");
 const Ceza = require("../tools/ceza");
 const raid = require("../guard/raid");
 
@@ -14,10 +10,8 @@ module.exports = {
     ad: Events.GuildMemberAdd,
     birKez: false,
     calistir: async function (uye, istemci) {
-        // raid
         await raid.katilimKontrol(uye);
 
-        // bot koruma
         if (uye.user.bot && uye.user.id !== istemci.user.id) {
             try {
                 var ayar = await Ayar.getir(uye.guild.id);
@@ -32,14 +26,14 @@ module.exports = {
                 if (yurutucu.id === uye.guild.ownerId) return;
                 if (yurutucu.id === yapilandirma.sahipId) return;
 
-                var beyaz = await Whitelist.kontrol(uye.guild.id, yurutucu.id);
-                if (beyaz) return;
+                var wl = await Whitelist.kontrol(uye.guild.id, yurutucu.id);
+                if (wl) return;
 
                 await Bot.kaldir(uye);
                 await Ceza.uygula(uye.guild, yurutucu, "bot_ekleme",
                     "Yetkisiz bot ekleme: " + (uye.user.tag || uye.user.id), ayar.cezaTuru);
             } catch (h) {
-                console.error("[ediz] bot koruma hatasi:", h.message);
+                console.error("[guardxnsole] bot koruma hatasi:", h.message);
             }
         }
     }

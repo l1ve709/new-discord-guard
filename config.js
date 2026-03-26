@@ -1,11 +1,7 @@
-// --------------------------------------------------------
-// ediz - yapilandirma
-// --------------------------------------------------------
-
 require("dotenv").config();
 
 var yapilandirma = {
-    botJetonu: process.env.BOT_JETONU,
+    botTokeni: process.env.BOT_TOKENI,
     istemciId: process.env.ISTEMCI_ID,
     sahipId: process.env.SAHIP_ID,
 
@@ -13,42 +9,42 @@ var yapilandirma = {
         sunucu: process.env.MYSQL_SUNUCU || "localhost",
         port: parseInt(process.env.MYSQL_PORT) || 3306,
         kullanici: process.env.MYSQL_KULLANICI || "root",
-        sifre: process.env.MYSQL_SIFRE || "",
-        veritabani: process.env.MYSQL_VERITABANI || "ediz_guard"
+        sifre: process.env.MYSQL_SIFRE || "ed1z2010.()",
+        veritabani: process.env.MYSQL_VERITABANI || "guardxnsole_guard"
     },
-    
+
     varsayilan: {
-        kanalKoruma:    true,
-        rolKoruma:      true,
-        banKoruma:      true,
-        kickKoruma:     true,
-        botKoruma:      true,
-        sunucuKoruma:   true,
-        webhookKoruma:  true,
-        emojiKoruma:    true,
-        spamKoruma:     true,
-        raidKoruma:     true,
+        kanalKoruma: true,
+        rolKoruma: true,
+        banKoruma: true,
+        kickKoruma: true,
+        botKoruma: true,
+        sunucuKoruma: true,
+        webhookKoruma: true,
+        emojiKoruma: true,
+        spamKoruma: true,
+        raidKoruma: true,
 
-        kanalLimit:     3,
-        rolLimit:       3,
-        banLimit:       3,
-        kickLimit:      3,
-        webhookLimit:   2,
-        emojiLimit:     3,
+        kanalLimit: 3,
+        rolLimit: 3,
+        banLimit: 3,
+        kickLimit: 3,
+        webhookLimit: 2,
+        emojiLimit: 3,
 
-        limitSuresi:    15,
+        limitSuresi: 15,
 
         spamMesajSinir: 5,
-        spamSaniye:     4,
+        spamSaniye: 4,
         spamSusturSure: 10,
 
         raidKatilimSinir: 10,
-        raidSaniye:       8,
+        raidSaniye: 8,
 
         cezaTuru: "banla",
 
         reklamKoruma: true,
-        reklamCeza:   "banla"
+        reklamCeza: "banla"
     },
 
     reklamDesenleri: [

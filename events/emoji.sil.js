@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - emoji silme tespiti
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Emoji = require("../guard/emoji");

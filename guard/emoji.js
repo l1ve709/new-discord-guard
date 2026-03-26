@@ -1,21 +1,45 @@
-// --------------------------------------------------------
-// ediz - webhook koruma
-// --------------------------------------------------------
+var Emoji = {};
 
-var Webhook = {};
-
-Webhook.temizle = async function (kanal) {
+Emoji.geriYukle = async function (sunucu, silinmisEmoji) {
     try {
-        var wh = await kanal.fetchWebhooks();
-        for (var [, w] of wh) {
-            try {
-                await w.delete("[ediz] yetkisiz webhook temizlendi");
-                console.log("[ediz] webhook silindi: " + w.name);
-            } catch (e) { /* silinemedi */ }
+        if (!silinmisEmoji.url) {
+            console.log("[guardxnsole] emoji geri yuklenemedi (url yok): " + silinmisEmoji.name);
+            return null;
         }
+
+        var yeni = await sunucu.emojis.create({
+            attachment: silinmisEmoji.url,
+            name: silinmisEmoji.name,
+            reason: "[guardxnsole] silinen emoji geri yuklendi"
+        });
+        console.log("[guardxnsole] emoji geri yuklendi: " + silinmisEmoji.name);
+        return yeni;
     } catch (h) {
-        console.error("[ediz] webhook temizleme hatasi:", h.message);
+        console.error("[guardxnsole] emoji geri yukleme hatasi:", h.message);
+        return null;
     }
 };
 
-module.exports = Webhook;
+Emoji.stickerGeriYukle = async function (sunucu, silinmisSticker) {
+    try {
+        if (!silinmisSticker.url) {
+            console.log("[guardxnsole] sticker geri yuklenemedi (url yok): " + silinmisSticker.name);
+            return null;
+        }
+
+        var yeni = await sunucu.stickers.create({
+            file: silinmisSticker.url,
+            name: silinmisSticker.name,
+            tags: silinmisSticker.tags || "guardxnsole",
+            description: silinmisSticker.description || "",
+            reason: "[guardxnsole] silinen sticker geri yuklendi"
+        });
+        console.log("[guardxnsole] sticker geri yuklendi: " + silinmisSticker.name);
+        return yeni;
+    } catch (h) {
+        console.error("[guardxnsole] sticker geri yukleme hatasi:", h.message);
+        return null;
+    }
+};
+
+module.exports = Emoji;

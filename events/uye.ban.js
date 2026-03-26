@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - toplu ban tespiti
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Ban = require("../guard/ban");
@@ -15,7 +11,7 @@ module.exports = {
             sunucu: ban.guild,
             denetimTuru: AuditLogEvent.MemberBanAdd,
             eylemTuru: "uye_banla",
-            modulAdi: "banguard",
+            modulAdi: "banKoruma",
             limitAlani: "banLimit",
             istemci: istemci
         });

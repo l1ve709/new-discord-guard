@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - rol olusturma
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Rol = require("../guard/rol");

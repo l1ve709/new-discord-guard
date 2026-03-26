@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - kanal koruma (geri yukle / sil / eski haline getir)
-// --------------------------------------------------------
-
 const { ChannelType } = require("discord.js");
 
 var Kanal = {};
@@ -34,22 +30,22 @@ Kanal.geriYukle = async function (silinmisKanal) {
             });
         }
 
-        ayar.reason = "[ediz] silinen kanal geri yuklendi";
+        ayar.reason = "[guardxnsole] silinen kanal geri yuklendi";
         var yeni = await sunucu.channels.create(ayar);
-        console.log("[ediz] kanal geri yuklendi: " + silinmisKanal.name);
+        console.log("[guardxnsole] kanal geri yuklendi: " + silinmisKanal.name);
         return yeni;
     } catch (h) {
-        console.error("[ediz] kanal geri yukleme hatasi:", h.message);
+        console.error("[guardxnsole] kanal geri yukleme hatasi:", h.message);
         return null;
     }
 };
 
 Kanal.sil = async function (kanal) {
     try {
-        await kanal.delete("[ediz] yetkisiz kanal olusturma");
-        console.log("[ediz] yetkisiz kanal silindi: " + kanal.name);
+        await kanal.delete("[guardxnsole] yetkisiz kanal olusturma");
+        console.log("[guardxnsole] yetkisiz kanal silindi: " + kanal.name);
     } catch (h) {
-        console.error("[ediz] kanal silme hatasi:", h.message);
+        console.error("[guardxnsole] kanal silme hatasi:", h.message);
     }
 };
 
@@ -63,12 +59,12 @@ Kanal.geriAl = async function (eskiKanal, yeniKanal) {
         if (eskiKanal.parentId !== yeniKanal.parentId) g.parent = eskiKanal.parentId;
 
         if (Object.keys(g).length > 0) {
-            g.reason = "[ediz] yetkisiz kanal degisikligi geri alindi";
+            g.reason = "[guardxnsole] yetkisiz kanal degisikligi geri alindi";
             await yeniKanal.edit(g);
-            console.log("[ediz] kanal geri alindi: " + eskiKanal.name);
+            console.log("[guardxnsole] kanal geri alindi: " + eskiKanal.name);
         }
     } catch (h) {
-        console.error("[ediz] kanal geri alma hatasi:", h.message);
+        console.error("[guardxnsole] kanal geri alma hatasi:", h.message);
     }
 };
 

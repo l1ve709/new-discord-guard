@@ -1,95 +1,101 @@
-// --------------------------------------------------------
-// ediz - ceza uygulama
-// --------------------------------------------------------
+const Ayar = require("../models/ayar.model");
+const Whitelist = require("../models/whitelist.model");
+const yapilandirma = require("../config");
 
-const Kayit = require("../models/kayit.model");
-const kayitci = require("../tools/kayitci");
+var sayaclar = {};
 
-var Ceza = {};
+function temizle(sunucuId, eylemTuru, kullaniciId) {
+    var anahtar = sunucuId + ":" + eylemTuru + ":" + kullaniciId;
+    if (!sayaclar[anahtar]) return;
+    delete sayaclar[anahtar];
+}
 
-Ceza.uygula = async function (sunucu, yurutucu, islem, detay, cezaTuru) {
-    var uye = null;
+function sayacArttir(sunucuId, eylemTuru, kullaniciId, limitSuresi) {
+    var anahtar = sunucuId + ":" + eylemTuru + ":" + kullaniciId;
+    if (!sayaclar[anahtar]) sayaclar[anahtar] = [];
+    sayaclar[anahtar].push(Date.now());
+
+    var esik = Date.now() - (limitSuresi * 1000);
+    sayaclar[anahtar] = sayaclar[anahtar].filter(function (z) { return z > esik; });
+
+    return sayaclar[anahtar].length;
+}
+
+var Denetleyici = {};
+
+Denetleyici.kontrol = async function (secenekler) {
+    var sonuc = { ihlal: false, yurutucu: null, ayarlar: null };
 
     try {
-        uye = await sunucu.members.fetch(yurutucu.id);
-    } catch (e) {
-        uye = null;
-    }
+        var sunucu = secenekler.sunucu;
+        var denetimTuru = secenekler.denetimTuru;
+        var eylemTuru = secenekler.eylemTuru;
+        var modulAdi = secenekler.modulAdi;
+        var limitAlani = secenekler.limitAlani;
+        var istemci = secenekler.istemci;
 
-    if (!uye) return;
+        var ayar = await Ayar.getir(sunucu.id);
+        sonuc.ayarlar = ayar;
 
-    var uyguladigimCeza = cezaTuru;
+        if (!ayar[modulAdi]) return sonuc;
 
-    if (cezaTuru === "banla") {
-        if (uye.bannable) {
-            try {
-                await uye.ban({ reason: "[ediz] " + islem + ": " + detay, deleteMessageSeconds: 86400 });
-            } catch (e) {
-                uyguladigimCeza = "rol_al";
-            }
-        } else {
-            uyguladigimCeza = "rol_al";
-        }
-    }
-
-    if (cezaTuru === "at") {
-        if (uye.kickable) {
-            try {
-                await uye.kick("[ediz] " + islem + ": " + detay);
-            } catch (e) {
-                uyguladigimCeza = "rol_al";
-            }
-        } else {
-            uyguladigimCeza = "rol_al";
-        }
-    }
-
-    if (uyguladigimCeza === "rol_al") {
-        var rolIdleri = uye.roles.cache
-            .filter(function (r) { return r.id !== sunucu.id && r.editable; })
-            .map(function (r) { return r.id; });
-
-        for (var i = 0; i < rolIdleri.length; i++) {
-            try {
-                await uye.roles.remove(rolIdleri[i], "[ediz] " + islem);
-            } catch (e) { /* */ }
-        }
-    }
-
-    if (cezaTuru === "sustur") {
+        var dk;
         try {
-            await uye.timeout(600000, "[ediz] " + islem + ": " + detay);
-            uyguladigimCeza = "sustur";
+            dk = await sunucu.fetchAuditLogs({ limit: 1, type: denetimTuru });
         } catch (e) {
-            console.error("[ediz] susturma hatasi:", e.message);
+            console.error("[guardxnsole] audit log hatasi:", e.message);
+            return sonuc;
         }
+
+        var giris = dk.entries.first();
+        if (!giris) return sonuc;
+        if (Date.now() - giris.createdTimestamp > 5000) return sonuc;
+
+        var yurutucu = giris.executor;
+        if (!yurutucu) return sonuc;
+
+        if (yurutucu.id === istemci.user.id) return sonuc;
+        if (yurutucu.id === sunucu.ownerId) return sonuc;
+        if (yurutucu.id === yapilandirma.sahipId) return sonuc;
+
+        var wl = await Whitelist.kontrol(sunucu.id, yurutucu.id);
+        if (wl) return sonuc;
+
+        if (ayar.muafRoller && ayar.muafRoller.length > 0) {
+            try {
+                var uye = await sunucu.members.fetch(yurutucu.id);
+                if (uye) {
+                    for (var i = 0; i < ayar.muafRoller.length; i++) {
+                        if (uye.roles.cache.has(ayar.muafRoller[i].trim())) return sonuc;
+                    }
+                }
+            } catch (e) {  }
+        }
+
+        sonuc.yurutucu = yurutucu;
+
+        var limit = ayar[limitAlani] || 3;
+        var miktar = sayacArttir(sunucu.id, eylemTuru, yurutucu.id, ayar.limitSuresi || 15);
+
+        if (miktar >= limit) {
+            sonuc.ihlal = true;
+            temizle(sunucu.id, eylemTuru, yurutucu.id);
+            console.log("[guardxnsole] IHLAL: " + yurutucu.tag + " | " + eylemTuru + " | " + miktar + "/" + limit);
+        }
+
+    } catch (h) {
+        console.error("[guardxnsole] denetleyici hatasi:", h.message);
     }
 
-    await Kayit.ekle({
-        sunucuId: sunucu.id,
-        kullaniciId: yurutucu.id,
-        kullaniciAdi: yurutucu.tag || yurutucu.username || "",
-        islem: islem,
-        detay: detay,
-        ceza: uyguladigimCeza
-    });
-
-    var cezaMetin = {
-        banla: "BANLANDI",
-        at: "ATILDI",
-        rol_al: "ROLLERI ALINDI",
-        sustur: "SUSTURULDU"
-    };
-
-    await kayitci.log(sunucu, "KORUMA IHLALI: " + islem,
-        "Kullanici: " + (yurutucu.tag || yurutucu.id) + "\n" +
-        "ID: " + yurutucu.id + "\n" +
-        "Ceza: " + (cezaMetin[uyguladigimCeza] || uyguladigimCeza) + "\n" +
-        "Detay: " + detay,
-        0xff0000
-    );
-
-    console.log("[ediz] CEZA: " + (yurutucu.tag || yurutucu.id) + " | " + islem + " | " + uyguladigimCeza);
+    return sonuc;
 };
 
-module.exports = Ceza;
+setInterval(function () {
+    var esik = Date.now() - 60000;
+    Object.keys(sayaclar).forEach(function (anahtar) {
+        sayaclar[anahtar] = sayaclar[anahtar].filter(function (z) { return z > esik; });
+        if (sayaclar[anahtar].length === 0) delete sayaclar[anahtar];
+    });
+}, 30000);
+
+module.exports = Denetleyici;

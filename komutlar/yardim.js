@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - yardim
-// --------------------------------------------------------
-
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
@@ -11,7 +7,7 @@ module.exports = {
 
     calistir: async function (etkilesim) {
         var g = new EmbedBuilder()
-            .setTitle("ediz - Guard Bot")
+            .setTitle("guardxnsole - Guard Bot")
             .setColor(0x2c3e50)
             .addFields(
                 { name: "Koruma Modulleri", value:
@@ -37,7 +33,7 @@ module.exports = {
                     "/kilit -- kanal kilitle\n" +
                     "/kayitlar -- son islemleri gor", inline: false }
             )
-            .setFooter({ text: "ediz" }).setTimestamp();
+            .setFooter({ text: "guardxnsole" }).setTimestamp();
 
         await etkilesim.reply({ embeds: [g] });
     }

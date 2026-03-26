@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - sticker silme tespiti
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Emoji = require("../guard/emoji");
@@ -15,7 +11,7 @@ module.exports = {
             sunucu: sticker.guild,
             denetimTuru: AuditLogEvent.StickerDelete,
             eylemTuru: "sticker_sil",
-            modulAdi: "emojiguard",
+            modulAdi: "emojiKoruma",
             limitAlani: "emojiLimit",
             istemci: istemci
         });

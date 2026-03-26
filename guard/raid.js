@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - raid koruma
-// --------------------------------------------------------
-
 const Ayar = require("../models/ayar.model");
 const kayitci = require("../tools/kayitci");
 
@@ -25,24 +21,24 @@ async function katilimKontrol(uye) {
             if (kilitli[sId]) return true;
             kilitli[sId] = true;
 
-            console.log("[ediz] RAID TESPIT: " + uye.guild.name);
-            try { await uye.guild.setVerificationLevel(4, "[ediz] raid"); } catch (e) { /* */ }
+            console.log("[guardxnsole] RAID TESPIT: " + uye.guild.name);
+            try { await uye.guild.setVerificationLevel(4, "[guardxnsole] raid"); } catch (e) {  }
 
             await kayitci.log(uye.guild, "RAID TESPIT",
                 ayar.raidKatilimSinir + " kisi / " + ayar.raidSaniye + " sn\n5 dk sonra normale donecek.", 0xff0000);
 
             setTimeout(async function () {
                 try {
-                    await uye.guild.setVerificationLevel(1, "[ediz] raid bitti");
+                    await uye.guild.setVerificationLevel(1, "[guardxnsole] raid bitti");
                     delete kilitli[sId];
                     await kayitci.log(uye.guild, "Raid Bitti", "Dogrulama normale dondu.", 0x27ae60);
-                } catch (e) { /* */ }
+                } catch (e) {  }
             }, 300000);
 
             return true;
         }
     } catch (h) {
-        console.error("[ediz] raid hatasi:", h.message);
+        console.error("[guardxnsole] raid hatasi:", h.message);
     }
     return false;
 }

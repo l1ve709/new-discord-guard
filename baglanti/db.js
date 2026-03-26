@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - mysql baglanti
-// --------------------------------------------------------
-
 const mysql = require("mysql2/promise");
 const yapilandirma = require("../config");
 
@@ -22,15 +18,15 @@ async function veritabaniBaglan() {
 
         var b = await havuz.getConnection();
         b.release();
-        console.log("[ediz] mysql baglantisi basarili");
+        console.log("[guardxnsole] mysql baglantisi basarili");
     } catch (h) {
-        console.error("[ediz] mysql hatasi:", h.message);
+        console.error("[guardxnsole] mysql hatasi:", h.message);
         process.exit(1);
     }
 }
 
 function havuzGetir() {
-    if (!havuz) throw new Error("[ediz] havuz hazir degil");
+    if (!havuz) throw new Error("[guardxnsole] havuz hazir degil");
     return havuz;
 }
 

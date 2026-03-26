@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - kayit modeli
-// --------------------------------------------------------
-
 const { havuzGetir } = require("../baglanti/db");
 
 var Kayit = {};
@@ -16,9 +12,10 @@ Kayit.ekle = async function (v) {
 
 Kayit.listele = async function (sunucuId, limit) {
     var havuz = havuzGetir();
+    var l = parseInt(limit) || 20;
     var [s] = await havuz.execute(
-        "SELECT * FROM kayitlar WHERE sunucu_id = ? ORDER BY tarih DESC LIMIT ?",
-        [sunucuId, limit || 20]
+        "SELECT * FROM kayitlar WHERE sunucu_id = ? ORDER BY tarih DESC LIMIT " + l,
+        [sunucuId]
     );
     return s;
 };

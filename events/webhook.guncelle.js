@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - webhook olusturma tespiti
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const Ayar = require("../models/ayar.model");
 const config = require("../config");
@@ -19,7 +15,7 @@ module.exports = {
             sunucu: kanal.guild,
             denetimTuru: AuditLogEvent.WebhookCreate,
             eylemTuru: "webhook_olustur",
-            modulAdi: "webhookguard",
+            modulAdi: "webhookKoruma",
             limitAlani: "webhookLimit",
             istemci: istemci
         });

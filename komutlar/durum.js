@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - durum
-// --------------------------------------------------------
-
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const Ayar = require("../models/ayar.model");
 
@@ -34,7 +30,7 @@ module.exports = {
                     "\nSure: " + a.limitSuresi + " sn" +
                     "\nLog: " + (a.logKanalId ? "<#" + a.logKanalId + ">" : "yok"), inline: true }
             )
-            .setFooter({ text: "ediz" }).setTimestamp();
+            .setFooter({ text: "guardxnsole" }).setTimestamp();
 
         await etkilesim.reply({ embeds: [g] });
     }

@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - log sistemi
-// --------------------------------------------------------
-
 const { EmbedBuilder } = require("discord.js");
 const Ayar = require("../models/ayar.model");
 
@@ -18,12 +14,12 @@ Kayitci.log = async function (sunucu, baslik, aciklama, renk) {
             .setTitle(baslik)
             .setDescription(aciklama)
             .setColor(renk || 0x2c3e50)
-            .setFooter({ text: "ediz" })
+            .setFooter({ text: "guardxnsole" })
             .setTimestamp();
 
         await kanal.send({ embeds: [g] });
     } catch (h) {
-        console.error("[ediz] log hatasi:", h.message);
+        console.error("[guardxnsole] log hatasi:", h.message);
     }
 };
 

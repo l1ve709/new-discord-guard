@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - ayar degistirme
-// --------------------------------------------------------
-
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const Ayar = require("../models/ayar.model");
 
@@ -47,8 +43,8 @@ module.exports = {
 
     calistir: async function (etkilesim) {
         if (etkilesim.user.id !== etkilesim.guild.ownerId &&
-            etkilesim.user.id !== require("../yapilandirma").sahipId) {
-            return await etkilesim.reply({ content: "Sadece sunucu sahibi kullanabilir. -- ediz", ephemeral: true });
+            etkilesim.user.id !== require("../config").sahipId) {
+            return await etkilesim.reply({ content: "Sadece sunucu sahibi kullanabilir. -- guardxnsole", ephemeral: true });
         }
 
         var modul = etkilesim.options.getString("modul");
@@ -79,6 +75,6 @@ module.exports = {
         }
 
         Ayar.temizle(etkilesim.guild.id);
-        await etkilesim.reply({ content: mesaj + "\n-- ediz" });
+        await etkilesim.reply({ content: mesaj + "\n-- guardxnsole" });
     }
 };

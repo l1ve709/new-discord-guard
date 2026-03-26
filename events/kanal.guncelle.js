@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - kanal guncelleme
-// --------------------------------------------------------
-
 const { Events, AuditLogEvent } = require("discord.js");
 const denetleyici = require("../guard/denetleyici");
 const Kanal = require("../guard/kanal");

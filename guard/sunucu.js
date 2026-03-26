@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - sunucu ayarlari koruma
-// --------------------------------------------------------
-
 var Sunucu = {};
 
 Sunucu.geriAl = async function (eskiSunucu, yeniSunucu) {
@@ -16,12 +12,12 @@ Sunucu.geriAl = async function (eskiSunucu, yeniSunucu) {
         if (eskiSunucu.defaultMessageNotifications !== yeniSunucu.defaultMessageNotifications) g.defaultMessageNotifications = eskiSunucu.defaultMessageNotifications;
 
         if (Object.keys(g).length > 0) {
-            g.reason = "[ediz] yetkisiz sunucu degisikligi geri alindi";
+            g.reason = "[guardxnsole] yetkisiz sunucu degisikligi geri alindi";
             await yeniSunucu.edit(g);
-            console.log("[ediz] sunucu ayarlari geri alindi");
+            console.log("[guardxnsole] sunucu ayarlari geri alindi");
         }
     } catch (h) {
-        console.error("[ediz] sunucu geri alma hatasi:", h.message);
+        console.error("[guardxnsole] sunucu geri alma hatasi:", h.message);
     }
 };
 

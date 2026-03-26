@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - veritabani kurulum betigi
-// --------------------------------------------------------
-
 const mysql = require("mysql2/promise");
 const fs = require("fs");
 const yol = require("path");
@@ -19,9 +15,9 @@ async function kur() {
         });
         var sql = fs.readFileSync(yol.join(__dirname, "kurulum.sql"), "utf8");
         await b.query(sql);
-        console.log("[ediz] kurulum tamamlandi");
+        console.log("[guardxnsole] kurulum tamamlandi");
     } catch (h) {
-        console.error("[ediz] kurulum hatasi:", h.message);
+        console.error("[guardxnsole] kurulum hatasi:", h.message);
     } finally {
         if (b) await b.end();
         process.exit(0);

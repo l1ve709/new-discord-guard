@@ -1,7 +1,3 @@
-// --------------------------------------------------------
-// ediz - mesaj temizleme
-// --------------------------------------------------------
-
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
@@ -19,9 +15,9 @@ module.exports = {
             var m = await etkilesim.channel.messages.fetch({ limit: sayi });
             if (kisi) m = m.filter(function (x) { return x.author.id === kisi.id; });
             var s = await etkilesim.channel.bulkDelete(m, true);
-            await etkilesim.reply({ content: s.size + " mesaj silindi. -- ediz", ephemeral: true });
+            await etkilesim.reply({ content: s.size + " mesaj silindi. -- guardxnsole", ephemeral: true });
         } catch (h) {
-            await etkilesim.reply({ content: "Hata: " + h.message + " -- ediz", ephemeral: true });
+            await etkilesim.reply({ content: "Hata: " + h.message + " -- guardxnsole", ephemeral: true });
         }
     }
 };
